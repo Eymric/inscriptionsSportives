@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -87,8 +88,7 @@ public class Inscriptions implements Serializable
 	 * @return
 	 */
 	
-	public Competition createCompetition(String nom, 
-			LocalDate dateCloture, boolean enEquipe)
+	public Competition createCompetition(String nom, LocalDate dateCloture, boolean enEquipe)
 	{
 		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
 		competitions.add(competition);
@@ -239,10 +239,13 @@ public class Inscriptions implements Serializable
 			+ "\nCompetitions  " + getCompetitions().toString();
 	}
 	
+
+	
 	public static void main(String[] args)
 	{
+		LocalDate datecloture = LocalDate.now().plus(1, ChronoUnit.YEARS);
 		Inscriptions inscriptions = Inscriptions.getInscriptions();
-		Competition flechettes = inscriptions.createCompetition("Mondial de fléchettes", null, false);
+		Competition flechettes = inscriptions.createCompetition("Mondial de fléchettes", datecloture, false);
 		Personne tony = inscriptions.createPersonne("Tony", "Dent de plomb", "azerty"), 
 				boris = inscriptions.createPersonne("Boris", "le Hachoir", "ytreza");
 		flechettes.add(tony);

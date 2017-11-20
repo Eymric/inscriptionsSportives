@@ -1,10 +1,39 @@
 package inscriptions;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.TreeSet;
+
+class InscriptionFermeException extends Exception
+{
+	@Override
+	public String toString()
+	{
+		return "Les inscriptions sont fermes.";
+	}
+}
+
+class DateClotureException extends Exception
+{
+	@Override
+	public String toString()
+	{
+		return "La date de cloture est passee.";
+	}
+}
+
+class InvalideDateException extends Exception
+{
+	@Override
+	public String toString()
+	{
+		return "La date est invalide, impossible d'avancer une date de cloture.";
+	}
+}
+
 
 /**
  * Représente une compétition, c'est-à-dire un ensemble de candidats 
@@ -53,16 +82,25 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * Retourne vrai si les inscriptions sont encore ouvertes, 
 	 * faux si les inscriptions sont closes.
 	 * @return
+	 * @throws InscriptionFerme 
 	 */
 	
 	public boolean inscriptionsOuvertes()
 	{
 		// TODO retourner vrai si et seulement si la date système est antérieure à la date de clôture.
-		if (LocalDate.now().isBefore(dateCloture)) { //TODO done
-			return true;
+		try 
+		{
+			if (LocalDate.now().isBefore(dateCloture)) {
+				return true;
+			}
 		}
+			catch (Exception e)
+			{
+				System.out.println(e);
+			}
 		return false;
 	}
+
 	
 	/**
 	 * Retourne la date de cloture des inscriptions.
@@ -88,13 +126,16 @@ public class Competition implements Comparable<Competition>, Serializable
 	 * Modifie la date de cloture des inscriptions. Il est possible de la reculer 
 	 * mais pas de l'avancer.
 	 * @param dateCloture
+	 * @throws InvalideDateException 
 	 */
 	
-	public void setDateCloture(LocalDate dateCloture)
+	public void setDateCloture(LocalDate dateCloture) throws InvalideDateException
 	{
 		// TODO vérifier que l'on avance pas la date.
 		if (dateCloture.isAfter(this.dateCloture)) //TODO done 
 		this.dateCloture = dateCloture;
+		else 
+			throw new InvalideDateException();
 	}
 	
 	/**
@@ -123,6 +164,7 @@ public class Competition implements Comparable<Competition>, Serializable
 		personne.add(this);
 		return candidats.add(personne);
 		}
+	
 	}
 
 	/**
