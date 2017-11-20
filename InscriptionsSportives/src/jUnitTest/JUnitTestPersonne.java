@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +22,13 @@ class JUnitTestPersonne {
 	Competition flechettes = inscriptions.createCompetition("Mondial de flechettes", datecloture, false);
 	Personne tony = inscriptions.createPersonne("Tony", "Dent de plomb", "azerty"), 
 			boris = inscriptions.createPersonne("Boris", "le Hachoir", "ytreza");
+	
 	public void a() {
 	Equipe lesManouches = inscriptions.createEquipe("Les Manouches");
 	lesManouches.add(boris);
 	lesManouches.add(tony);
 	}
+
 	
 	@Test
 	void testDelete() {
@@ -54,8 +59,13 @@ class JUnitTestPersonne {
 
 	@Test
 	void testGetEquipes() {
-		a();
-		assertEquals("Les Manouches", tony.getEquipes());
+		Set<Equipe> equipe = new TreeSet<>();
+		Equipe lesManouches = inscriptions.createEquipe("Les Manouches");
+		Equipe Galactik = inscriptions.createEquipe("Les Galactiks");
+		lesManouches.add(tony);
+		equipe.add(lesManouches);
+		
+		assertEquals(equipe, tony.getEquipes());
 	}
 
 	@Test
