@@ -181,7 +181,7 @@ public class MenuInscription {
 //	private Option selectCompetition() {
 //		
 //	}
-	
+//	
 
 	public static void main(String[] args)
 	{
