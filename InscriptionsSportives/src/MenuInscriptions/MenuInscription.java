@@ -48,9 +48,36 @@ public class MenuInscription {
 	
 	private Menu menuCompetitions() {
 		Menu menu = new Menu("Competitions", "n");
+		menu.add(listCompetitions());
 		menu.addBack("r");
 		return menu;
 	}
+	
+	private List<Competition> selectionCompetitions()
+	{
+		return new List<Competition>("Selectionner une competitions", "s",
+				() -> new ArrayList<>(Inscriptions.getInscriptions().getCompetitions()),
+				(element) -> menuSelectCompetition(element)
+				);
+	}
+	
+	private Menu menuSelectCompetition(Competition c) {
+		Menu menu = new Menu ("Competition: ", c.getNom());
+		menu.add(inscriptionEquipe());
+		menu.add(inscriptionPersonne());
+		menu.add(supprimerCompetition());
+		menu.addBack("r");
+		return menu;
+	}
+	
+	private Option inscriptionEquipe() {
+		return new Option("")
+	}
+	
+	private Option listCompetitions() {
+		return new Option("Liste des competitions", "l", () -> { System.out.println(Inscriptions.getInscriptions().getCompetitions());});
+	}
+
 	
 	private Option creerEquipe() { 
 		return new Option("Creer un candidat equipe", "e", () ->  { 
