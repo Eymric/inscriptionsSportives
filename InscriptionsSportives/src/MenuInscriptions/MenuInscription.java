@@ -41,7 +41,7 @@ public class MenuInscription {
 	private Menu menuCandidats() {
 		Menu menu = new Menu("Candidat", "c");
 		menu.add(menuEquipe());
-		menu.add(menuPersonne(null));
+		menu.add(menuPersonne());
 		menu.addBack("r");
 		return menu;
 	}
@@ -63,15 +63,25 @@ public class MenuInscription {
 	
 	private Menu menuSelectCompetition(Competition c) {
 		Menu menu = new Menu ("Competition: ", c.getNom());
-		menu.add(inscriptionEquipe());
-		menu.add(inscriptionPersonne());
-		menu.add(supprimerCompetition());
+//		menu.add(inscriptionEquipe(c));
+//		menu.add(inscriptionPersonne(c));
+//		menu.add(supprimerCompetition());
 		menu.addBack("r");
 		return menu;
 	}
 	
-	private Option inscriptionEquipe() {
-		return new Option("")
+	private Option inscriptionEquipe(Equipe e) {
+		return new Option("Inscription Equipe", "e", () -> {
+					selectEquipe();
+			}
+		);
+	}
+	
+	private List<Equipe> selectEquipe()
+	{
+		return new List<Equipe>("Selectionner une equipe", "s",
+				() -> new ArrayList<>(Inscriptions.getInscriptions().getEquipes()),
+				(element) -> inscriptionEquipe(element) );
 	}
 	
 	private Option listCompetitions() {
@@ -143,7 +153,7 @@ public class MenuInscription {
 		return new Option ("Liste des membres", "m", () ->  { System.out.println(e.getMembres());});
 	}
 	
-	private Menu menuPersonne(Personne personne) {
+	private Menu menuPersonne() {
 		Menu menu = new Menu ("Personne", "p");
 		menu.add(creerPersonne());
 		menu.add(ListPersonne());
